@@ -1,0 +1,6 @@
+bpy==4.0.0
+python-dotenv
+streamlit
+openai
+ipython
+numpy<2
