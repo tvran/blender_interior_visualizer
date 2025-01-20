@@ -56,14 +56,26 @@ def generate_and_execute_script(prompt, asset_paths, reference_script, output_pa
                 The view of the render should be the from the farthest corner from the 
                 origin of the room looking at the opposite corner.
                 Return ONLY script itself. No ```python.
-                Remember, I strictly ask you to not change the fundamental
-                approaches in the reference script. However, you can:
+                Remember, I ask you to not change the fundamental
+                approaches in the reference script. 
+                - For create_panels function, verify panel placement based on wall orientation:
+                  * FLOOR (XY plane): panels spread along X and Y axes
+                  * WALL_X (YZ plane): panels spread along Y and Z axes
+                  * WALL_Y (XZ plane): panels spread along X and Z axes
+                - Double-check panel placement loops to prevent:
+                  * Floor panels stacking vertically
+                  * Wall panels building in front of each other
+                  * Overlapping or misaligned panels
+                - Don't use create_panel if using create_panels to prevent their overlap
+                - Skip create_panels if not explicitly requested
+                However, you can:
                 - Adjust plane dimensions to satisfy the user's wishes.
                 - Update the camera location and angle to make all walls visible.
+                Just keep in mind that camera height should be wall_height/size and 
+                rotation must be math.radians(90), 0, math.radians(135))
                 - Modify light settings to suit an interior scene.
-                - Use BLENDER_EEVEE_NEXT engine.
-                - Set interior light energy to max 30. everywhere. 
-                """}
+                - Use CYCLES engine!
+                - Set interior light energy to max 30. everywhere. """}
             ]
         )
 
@@ -95,9 +107,12 @@ uploaded_files = st.file_uploader(
 # Save uploaded files temporarily
 asset_paths = []
 if uploaded_files:
-    os.makedirs("uploaded_assets", exist_ok=True)
+    # Use the absolute path for the "uploaded_assets" directory
+    base_dir = os.path.abspath("uploaded_assets")
+    os.makedirs(base_dir, exist_ok=True)
+
     for uploaded_file in uploaded_files:
-        file_path = f"uploaded_assets/{uploaded_file.name}"
+        file_path = os.path.join(base_dir, uploaded_file.name)
         with open(file_path, "wb") as f:
             f.write(uploaded_file.read())
         asset_paths.append(file_path)
@@ -107,8 +122,7 @@ if st.button("Generate Design"):
         st.write("Processing your request...")
 
         # Path to save the rendered output
-        output_path = "output/rendered_scene.png"
-        os.makedirs("output", exist_ok=True)
+        output_path = "rendered_room.png"
 
         # Generate and execute the script
         result_path = generate_and_execute_script(user_prompt, asset_paths, reference_script, output_path)
