@@ -76,7 +76,7 @@ abstract-background texture. The floor must be covered with 1x1m wood_texture pa
 - **Floor Material**: Custom wood texture.
 - **Camera**: Positioned at one corner, looking at the opposite corner.
 
-![Rendered Scene](output/example_render.png)
+![Rendered Room](/rendered_room.png)
 
 ---
 
