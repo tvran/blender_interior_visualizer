@@ -91,11 +91,19 @@ def generate_and_execute_script(prompt, asset_paths, reference_script, output_pa
         return None
 
 # Streamlit App
-st.title("Interior Design Visualizer")
+st.title("Визуализация панелей интерьера")
 st.write("Describe your interior design idea and upload one or more textures to visualize it.")
+st.write("")
+st.write("""
+Уточните:
+1. Размеры комнаты, а именно: длины стен и высота потолка
+2. Текстура для каждой стены, потолка и пола.
+- В данный момент поддерживаются цвета и ваши загруженные картинки
+3. Если стена/пол/потолок состоит из панелей: уточните размер панели
+""")
 
 # User input: Text prompt
-user_prompt = st.text_area("Enter your design description:", placeholder="E.g., Design a cozy living room with a wooden floor and painted walls.")
+user_prompt = st.text_area("Введите описание дизайна:", placeholder="E.g., Design a 7x7m room with 3m ceiling. I want the ceiling to be covered in beige color...")
 
 # User input: Multiple file upload for assets
 uploaded_files = st.file_uploader(
