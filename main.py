@@ -92,13 +92,9 @@ def generate_and_execute_script(prompt, asset_paths, reference_script, output_pa
 
 # Streamlit App
 st.title("Визуализация панелей интерьера")
-st.write("Describe your interior design idea and upload one or more textures to visualize it.")
-st.write("")
-st.write("""
-Уточните:
+st.write("""Уточните:
 1. Размеры комнаты, а именно: длины стен и высота потолка
-2. Текстура для каждой стены, потолка и пола.
-- В данный момент поддерживаются цвета и ваши загруженные картинки
+2. Текстура для каждой стены, потолка и пола. *В данный момент поддерживаются цвета и ваши загруженные картинки
 3. Если стена/пол/потолок состоит из панелей: уточните размер панели
 """)
 
@@ -107,7 +103,7 @@ user_prompt = st.text_area("Введите описание дизайна:", pl
 
 # User input: Multiple file upload for assets
 uploaded_files = st.file_uploader(
-    "Upload one or more textures (e.g., floor, wall):",
+    "Загрузите один или несколько текстур в формате png, jpg, jpeg (например, паркет, стена и т.д.):",
     type=["png", "jpg", "jpeg"],
     accept_multiple_files=True
 )
@@ -125,9 +121,9 @@ if uploaded_files:
             f.write(uploaded_file.read())
         asset_paths.append(file_path)
 
-if st.button("Generate Design"):
+if st.button("Сгенерировать!"):
     if user_prompt.strip() and asset_paths:
-        st.write("Processing your request...")
+        st.write("Обрабатываем ваш запрос...")
 
         # Path to save the rendered output
         output_path = "rendered_room.png"
@@ -137,6 +133,6 @@ if st.button("Generate Design"):
 
         # Display the rendered image if it exists
         if result_path and os.path.exists(result_path):
-            st.image(Image.open(result_path), caption="Rendered Scene", use_column_width=True)
+            st.image(Image.open(result_path), caption="Готовый рендер", use_column_width=True)
     else:
-        st.error("Please provide a design description and upload at least one asset.")
+        st.error("Пожалуйста, напишите запрос и загрузите текстуру.")
