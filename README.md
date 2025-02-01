@@ -1,7 +1,6 @@
 # **Blender Interior Visualizer**
 
 ## **1. Project Title and Description**
-### **Blender Interior Visualizer**
 An AI-powered tool that generates Blender scripts for designing interior spaces based on user prompts and assets. This project combines the flexibility of Python with the power of Blender's scripting API (`bpy`) to automate interior design tasks, making it faster and error-free.
 
 ---
